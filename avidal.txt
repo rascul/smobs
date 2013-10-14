@@ -1,0 +1,30 @@
+three tables: smob, load, item
+smob columns: id, name
+load tables: smob, item, count, when
+item table: id, name, type, etc etc
+when someone kills a smob:
+create a record in the item table for the item if it doesn't exist
+create a record in the smob table if it doesn't exist
+then create a LOAD record for each item found on the smob
+probably want to have another id for the load table which is shared across the entire load
+so if you get 10 items from one kill, you have one smob entry, 10 item entries, 10 load entries (fk to the same smob, to individual items, sharing a load_id)
+then you can do averages to see, out of X loads in the load table (load id), how many times was X item present
+load table might also include where on the smob it was found, so load location could be one of: chest, sack, inventory, equipment
+scratch something out and i'll integrate it
+actually, i'm sorry add one more table
+smob, load, load_item, and item
+load has fields: smob, who, when
+load_item has fields: load, item, count, location
+so the number of times a smob has been recorded is a simple count of LOAD records grouped by smob id
+the average number of items per load per smob is a count of LOAD_ITEM records grouped by load and smob id
+
+
+
+
+
+smob columns: id, name
+load tables: smob, item, count, when
+item table: id, name, type, etc etc
+smob, load, load_item, and item
+load has fields: smob, who, when
+load_item has fields: load, item, count, location
