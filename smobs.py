@@ -81,6 +81,31 @@ def submit():
 		return render_template('submitted.html')
 	return render_template('submit_error.html')
 
+@app.route('/smob/<int:smobid>')
+def smob(smobid):
+	cur = g.db.cursor()
+	cur.execute('select * from smob where smobid = %s', (smobid,))
+	smob = cur.fetchone()
+	cur.execute('select loadid from load where smobid = %s', (smobid,))
+	loads = cur.fetchall()
+	kills = len(loads)
+	items = {}
+	for load in loads:
+		cur.execute('select * from load_item where loadid = %s', (load,))
+		for row in cur:
+			if not items.get(int(row[1])):
+				items[int(row[1])] = 1
+			else:
+				items[int(row[1])] += 1
+	
+	newitems = {}
+	for item in items.items():
+		cur.execute('select name from item where itemid = %s', (item[0],))
+		row = cur.fetchone()
+		newitems[row[0]] = float(item[1]) / float(kills) * 100
+		
+	return render_template('smob.html', smob=smob, kills=kills, items=newitems.items())
+
 @app.route('/')
 def index():
 	cur = g.db.cursor()
