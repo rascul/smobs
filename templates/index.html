@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>smobs</title>
+</head>
+<body>
+<h1>smob database</h1>
+<p><a href="/submit">contribute</a></p>
+<table>
+<tr><th>smob</th><th>stab</th><th>channel</th></tr>
+{% for smob in smobs %}
+	<tr><td><a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a></td>
+	<td>{% if smob[2] == True %}Y{% elif smob[2] == False %}N{% endif %}</td>
+	<td>{% if smob[3] == True %}Y{% elif smob[3] == False %}N{% endif %}</td>
+{% endfor %}
+</table>
+</body>
+</html>
