@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 def connect_db():
-	#return sqlite3.connect(app.config['DATABASE'])
 	return psycopg2.connect("dbname=smobs")
 
 def init_db():
@@ -30,12 +29,11 @@ def teardown_request(exception):
 	if db is not None:
 		db.close()
 
-@app.route('/submit', methods=['GET'])
-def index():
-	return render_template('submit.html')
-
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['GET', 'POST'])
 def submit():
+	if request.method == 'GET':
+		return render_template('submit.html')
+	
 	data = request.form.get('smob')
 	if not data:
 		return render_template('submit_error.html')
@@ -88,6 +86,12 @@ def submit():
 		
 		return render_template('submitted.html')
 	return render_template('submit_error.html')
+
+@app.route('/')
+def index():
+	cur = g.db.cursor()
+	cur.execute('select * from smob')
+	return render_template('index.html', smobs=cur.fetchall())
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=1234)
