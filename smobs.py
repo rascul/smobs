@@ -38,22 +38,36 @@ def submit():
 	if not data:
 		return render_template('submit_error.html')
 	
-	location = ""
+	smob = ""
+	items = []
 	out = "<pre>"
-	r = re.compile("^You get (.*) from the corpse of (.*)\.$")
+	r = re.compile("^(smob: (.*)|(You get (.*) from (the corpse of |)(.*)\.)|You get (.*)\.)$")
+	
 	for line in data.split('\n'):
-		m = re.match("You get (.*) from the corpse of (.*)\.", line.strip())
+		m = r.match(line.strip())
 		if m:
-			out += "smob: " + m.group(2) + " item: " + m.group(1) + "\n"
-		#out += line + "\n"
-		
-		
+			if not smob and m.group(2):
+				smob = m.group(2)
+			elif not smob and m.group(6):
+				smob = m.group(6)
+			
+			match = False
+			i = 0
+			itemmatch = m.group(4) or m.group(7)
+			for item in items:
+				if item[0] == itemmatch:
+					items[i] = item[0], item[1] + 1
+					match = True
+				i += 1
+			if not match and itemmatch:
+				items.append((itemmatch, 1))
+	
+	out += smob.lower() + "\n"
+	for item in items:
+		out += str(item[1]) + " " + str(item[0]) + "\n"
 	
 	out += "</pre>"
 	return out
-	
-	#return request.form['smob']
-	
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=1234)
