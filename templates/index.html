@@ -21,11 +21,11 @@ body {
 <p>use this form to submit smob data</p>
 <p>paste the log of <code>get all corpse</code></p>
 <p>if there is no named corpse, or no corpse at all, include the smob name somewhere with the log of <code>get all</code></p>
-<p>check out collected data <a href="/static/smobs.txt">smobs.txt</a> (might be a large file)</p>
+<p>be sure to include the stuff you get from a pack or other container, or off the ground</p>
 
 <form action="/submit" method="post">
 <p><textarea autofocus name="smob" rows="32" cols="120" onkeydown="ctrl_enter(event);"></textarea></p>
-<p><button id="submit_button">submit</button><br>
+<p><button id="submit_button" value="recheck" name="button">submit</button><br>
 <small>or hit ctrl+enter</small></p>
 </form>
 
