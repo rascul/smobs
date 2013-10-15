@@ -3,34 +3,30 @@
 <head>
 <meta charset="utf-8">
 <title>smobs</title>
+<script>
+function ctrl_enter(e) {
+	if (e.keyCode == 13 && e.ctrlKey) {
+		document.getElementById("submit_button").click();
+	}
+}
+</script>
 <style type="text/css">
 body {
-	text-align: center;
-}
-table {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: left;
-}
-th {
 	text-align: center;
 }
 </style>
 </head>
 <body>
-<p>verify data is correct, if not then make corrections</p>
-<p>if smob name is not properly discovered, add first a line like <code>smob: wicked fade</code> before any other lines</p>
-
-<table>
-<tr><th colspan=2>{{ smob }}</th></tr>
-{% for item in items %}
-	<tr><td>{{ item[1] }}</td><td>{{ item[0] }}</td></tr>
-{% endfor %}
-</table>
+<h1>smob database submission</h1>
+<p>use this form to submit smob data</p>
+<p>paste the log of <code>get all corpse</code><br>
+if there is no named corpse, or no corpse at all, include the smob name somewhere with the log of <code>get all</code><br>
+be sure to include the stuff you get from a pack or other container, or off the ground</p>
 
 <form action="/submit" method="post">
-<p><textarea autofocus name="smob" rows="32" cols="120">{{ data }}</textarea></p>
-<p><button id="recheck" value="recheck" name="button">recheck</button> <button id="submit" value="submit" name="button">submit</button></p>
+<p><textarea autofocus name="smob" rows="32" cols="120" onkeydown="ctrl_enter(event);"></textarea></p>
+<p><button id="submit_button" value="recheck" name="button">submit</button><br>
+<small>or hit ctrl+enter</small></p>
 </form>
 
 </body>
