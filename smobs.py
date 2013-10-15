@@ -30,9 +30,9 @@ def teardown_request(exception):
 	if db is not None:
 		db.close()
 
-@app.route('/')
+@app.route('/submit', methods=['GET'])
 def index():
-	return render_template('index.html')
+	return render_template('submit.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -64,7 +64,7 @@ def submit():
 				items.append((itemmatch, 1))
 	
 	if request.form.get('button') == "recheck":
-		return render_template('submit.html', smob=smob, items=items, data=data)
+		return render_template('submit_check.html', smob=smob, items=items, data=data)
 	if request.form.get('button') == "submit":
 		cur = g.db.cursor()
 		
