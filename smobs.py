@@ -1,6 +1,6 @@
 import re
 import sqlite3
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from contextlib import closing
 
 DATABASE = 'smobs.db'
@@ -18,12 +18,12 @@ def init_db():
 			db.cursor().executescript(f.read())
 		db.commit()
 
-@app.before_request():
+@app.before_request
 def before_request():
 	g.db = connect_db()
 
-@app.teardown_request():
-def teardown_request():
+@app.teardown_request
+def teardown_request(exception):
 	db = getattr(g, 'db', None)
 	if db is not None:
 		db.close()
@@ -45,7 +45,7 @@ def submit():
 		m = re.match("You get (.*) from the corpse of (.*)\.", line.strip())
 		if m:
 			out += "smob: " + m.group(2) + " item: " + m.group(1) + "\n"
-		out += line + "\n"
+		#out += line + "\n"
 		
 		
 	
