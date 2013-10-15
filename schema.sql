@@ -1,14 +1,14 @@
 CREATE TABLE smob (
   smobid INTEGER PRIMARY KEY,
-  name TEXT UNIQUE,
-  stab INTEGER,
-  channel INTEGER
+  name TEXT UNIQUE
 );
 CREATE TABLE load (
   id INTEGER PRIMARY KEY,
   smobid INTEGER,
   who TEXT,
   date TEXT,
+  stab INTEGER,
+  channel INTEGER,
   FOREIGN KEY(smobid) REFERENCES smob(id)
 );
 CREATE TABLE item (
