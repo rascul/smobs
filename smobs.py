@@ -1,7 +1,8 @@
 import re
-import sqlite3
+import psycopg2
 from flask import Flask, render_template, request, g
 from contextlib import closing
+from datetime import datetime
 
 DATABASE = 'smobs.db'
 DEBUG = True
@@ -10,7 +11,8 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 def connect_db():
-	return sqlite3.connect(app.config['DATABASE'])
+	#return sqlite3.connect(app.config['DATABASE'])
+	return psycopg2.connect("dbname=smobs")
 
 def init_db():
 	with closing(connect_db()) as db:
@@ -64,7 +66,27 @@ def submit():
 	if request.form.get('button') == "recheck":
 		return render_template('submit.html', smob=smob, items=items, data=data)
 	if request.form.get('button') == "submit":
-		return render_template('submitted.html')
+		cur = g.db.cursor()
+		
+		cur.execute('select smobid from smob where name = %s', (smob,))
+		if cur.rowcount is 0:
+			cur.execute('insert into smob (name) values (%s) returning smobid', (smob,))
+		smobid = cur.fetchone()[0]
+		
+		timestamp = datetime.now()
+		cur.execute('insert into load (smobid, who, date) values (%s, %s, %s) returning loadid', (smobid, 'racsul', timestamp))
+		loadid = cur.fetchone()[0]
+		
+		for item in items:
+			cur.execute('select itemid from item where name = %s', (item[0],))
+			if cur.rowcount is 0:
+				cur.execute('insert into item (name) values (%s) returning itemid', (item[0],))
+			itemid = cur.fetchone()[0]
+			cur.execute('insert into load_item (loadid, itemid, quantity) values (%s, %s, %s)', (loadid, itemid, item[1]))
+		
+		g.db.commit()
+		
+		return render_template('submitted.html', rowcount=smobid)
 	return render_template('submit_error.html')
 
 if __name__ == '__main__':
