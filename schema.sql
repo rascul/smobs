@@ -1,25 +1,22 @@
 CREATE TABLE smob (
-  smobid INTEGER PRIMARY KEY,
-  name TEXT UNIQUE,
-  stab INTEGER,
-  channel INTEGER
+  smobid serial PRIMARY KEY,
+  name varchar(80) UNIQUE,
+  stab boolean,
+  channel boolean
 );
 CREATE TABLE load (
-  id INTEGER PRIMARY KEY,
-  smobid INTEGER,
-  who TEXT,
-  date TEXT,
-  FOREIGN KEY(smobid) REFERENCES smob(id)
+  loadid bigserial PRIMARY KEY,
+  smobid serial references smob(smobid),
+  who varchar(80),
+  date timestamp
 );
 CREATE TABLE item (
-  id INTEGER PRIMARY KEY,
-  name TEXT
+  itemid bigserial PRIMARY KEY,
+  name varchar(80)
 );
 CREATE TABLE load_item (
-  loadid INTEGER,
-  itemid INTEGER,
-  quantity INTEGER,
-  location TEXT,
-  FOREIGN KEY(loadid) REFERENCES load(id),
-  FOREIGN KEY(itemid) REFERENCES item(id)
+  loadid bigserial references load(loadid),
+  itemid bigserial references item(itemid),
+  quantity integer,
+  location varchar(80)
 );
