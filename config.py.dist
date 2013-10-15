@@ -1,0 +1,3 @@
+DATABSE = 'dbname=smobs user=smobs password=smobs host=smobs.com port=1234'
+DEBUG = False
+
