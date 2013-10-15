@@ -84,7 +84,7 @@ def submit():
 @app.route('/')
 def index():
 	cur = g.db.cursor()
-	cur.execute('select * from smob')
+	cur.execute('select * from smob order by name')
 	return render_template('index.html', smobs=cur.fetchall())
 
 if __name__ == '__main__':
