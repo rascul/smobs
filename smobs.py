@@ -86,7 +86,7 @@ def submit():
 		
 		g.db.commit()
 		
-		return render_template('submitted.html', rowcount=smobid)
+		return render_template('submitted.html')
 	return render_template('submit_error.html')
 
 if __name__ == '__main__':
