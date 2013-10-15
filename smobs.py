@@ -40,7 +40,6 @@ def submit():
 	
 	smob = ""
 	items = []
-	out = "<pre>"
 	r = re.compile("^(smob: (.*)|(You get (.*) from (the corpse of |)(.*)\.)|You get (.*)\.)$")
 	
 	for line in data.split('\n'):
@@ -62,12 +61,11 @@ def submit():
 			if not match and itemmatch:
 				items.append((itemmatch, 1))
 	
-	out += smob.lower() + "\n"
-	for item in items:
-		out += str(item[1]) + " " + str(item[0]) + "\n"
-	
-	out += "</pre>"
-	return out
+	if request.form.get('button') == "recheck":
+		return render_template('submit.html', smob=smob, items=items, data=data)
+	if request.form.get('button') == "submit":
+		return render_template('submitted.html')
+	return render_template('submit_error.html')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=1234)
