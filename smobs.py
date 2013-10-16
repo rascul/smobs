@@ -3,15 +3,13 @@ import psycopg2
 from flask import Flask, render_template, request, g
 from contextlib import closing
 from datetime import datetime
-
-DATABASE = 'smobs.db'
-DEBUG = True
+import config
 
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object('config')
 
 def connect_db():
-	return psycopg2.connect("dbname=smobs")
+	return psycopg2.connect(app.config['DATABASE'])
 
 @app.before_request
 def before_request():
