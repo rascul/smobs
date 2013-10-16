@@ -3,7 +3,7 @@ import psycopg2
 from flask import Flask, render_template, request, g
 from contextlib import closing
 from datetime import datetime
-import config
+
 
 app = Flask(__name__)
 app.config.from_object('config')
