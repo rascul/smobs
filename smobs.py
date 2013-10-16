@@ -4,12 +4,13 @@ from flask import Flask, render_template, request, g
 from contextlib import closing
 from datetime import datetime
 
+DEBUG = False
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object(__name__)
 
 def connect_db():
-	return psycopg2.connect(app.config['DATABASE'])
+	return psycopg2.connect('dbname=ded6nmbfhs71va user=cnszznnlxzplpy password=F0ZYU12N8HpO4VTgD8CridByB1 host=ec2-54-235-92-161.compute-1.amazonaws.com port=5432')
 
 @app.before_request
 def before_request():
