@@ -11,19 +11,29 @@ as published by Sam Hocevar. See the COPYING file for more details.
 <head>
 <meta charset="utf-8">
 <title>smob database</title>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load('visualization', '1', {packages: ['table', 'corechart']});</script>
+<script type="text/javascript">
+function drawSmobTable() {
+	// Create and populate the data table.
+	var data = google.visualization.arrayToDataTable([
+	['smob', 'stab', 'channel', 'kills'],
+	{% for smob in smobs %}
+		['<a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a>', '{% if smob[2] == True %}Y{% elif smob[2] == False %}N{% endif %}', '{% if smob[3] == True %}Y{% elif smob[3] == False %}N{% endif %}', {{ kills[smob[0]] }}],
+	{% endfor %}
+	]);      
+	visualization = new google.visualization.Table(document.getElementById('smob_table'));
+	visualization.draw(data, {showRowNumber: true, allowHtml: true});
+}
+google.setOnLoadCallback(drawSmobTable);
+</script>
+
 </head>
 <body>
 <h1>smob database</h1>
 <p><a href="/submit">contribute</a></p>
-<table>
-<tr><th>smob</th><th>stab</th><th>channel</th><th>kills</th></tr>
-{% for smob in smobs %}
-	<tr><td><a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a></td>
-	<td>{% if smob[2] == True %}Y{% elif smob[2] == False %}N{% endif %}</td>
-	<td>{% if smob[3] == True %}Y{% elif smob[3] == False %}N{% endif %}</td>
-	<td>{{ kills[smob[0]] }}</td>
-{% endfor %}
-</table>
+<div id="smob_table"></div>
 <p><a href="https://github.com/rascul/smobs">open sores</a></p>
 </body>
 </html>
