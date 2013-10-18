@@ -1,0 +1,15 @@
+17:08        @dime | what you want is a normal distribution calculator.. you can likely import this...
+17:09        @dime | the one that says.. z=1 for 86%, z=2 for 95%, z=3 for 99.7%, etc
+17:09        @dime | so your mean is your average
+17:09        @dime | let's say your average drop is 25% for an item
+17:10        @dime | you then figure out the std deviation of this drop by this formula
+17:10        @dime | sqrt(n*.25*(1-.25))
+17:10        @dime | where n is the number of total attempts
+17:11       rascul | i think i'm following so far
+17:11        @dime | so let's say.. this item dropped 25 out of 100 times, the std deviation would be sqrt(100*.25*.75), which is 4.33
+17:12 shiftplusone | so ahmm... how did you guys go there?                                                                            
+17:12        @dime | so for 86% confidence, your range would be 25-4.33, 25+4.33 out of 100
+17:13        @dime | adjust your z for whatever confidence you want                        
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+17:13        @dime | or adjust your confidence for fixed z
+
