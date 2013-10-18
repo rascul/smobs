@@ -37,19 +37,20 @@ def submit():
 	
 	smob = ""
 	items = []
-	r = re.compile("^(smob: (.*)|(You get (.*) from (the corpse of |)(.*)\.)|You get (.*)\.)$")
+	#r = re.compile("^(smob: (.*)|(You get (.*) from (the corpse of |)(.*)\.)|You get (.*)\.)$")
+	r = re.compile("^(smob: (.*)|((You get|.* gets) (.*) from (the corpse of |)(.*)\.)|(You get|.* gets) (.*)\.)$")
 	
 	for line in data.split('\n'):
 		m = r.match(line.strip())
 		if m:
 			if not smob and m.group(2):
 				smob = m.group(2)
-			elif not smob and m.group(6):
-				smob = m.group(6)
+			elif not smob and m.group(7):
+				smob = m.group(7)
 			
 			match = False
 			i = 0
-			itemmatch = m.group(4) or m.group(7)
+			itemmatch = m.group(5) or m.group(9)
 			for item in items:
 				if item[0] == itemmatch:
 					items[i] = item[0], item[1] + 1
