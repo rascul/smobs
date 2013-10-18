@@ -12,19 +12,36 @@ as published by Sam Hocevar. See the COPYING file for more details.
 <meta charset="utf-8">
 <title>{{ smob[1] }}</title>
 </head>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load('visualization', '1', {packages: ['table', 'corechart']});</script>
+<script type="text/javascript">
+function drawSmobTable() {
+	// Create and populate the data table.
+	var data = google.visualization.arrayToDataTable([
+	['item', 'chance'],
+	{% for item in items %}
+		['{{ item[0] }}', {{ item[1] }}],
+	{% endfor %}
+	]);      
+	var formatter = new google.visualization.NumberFormat({
+		fractionDigits: 1,
+		suffix: '%'
+	});
+	formatter.format(data, 1);
+	visualization = new google.visualization.Table(document.getElementById('smob_table'));
+	visualization.draw(data, {showRowNumber: true, allowHtml: true});
+}
+google.setOnLoadCallback(drawSmobTable);
+</script>
+
 <body>
 <h1>{{ smob[1] }}</h1>
 <p>killed {{ kills }} times</p>
 <p>stab: {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
 <p>channel: {% if smob[3] == True %}yes{% elif smob[3] == False %}no{% else %}unknown{% endif %}</p>
 
-<table>
-<tr><th>item</th><th>chance</th></tr>
-{% for item in items %}
-	<tr><td>{{ item[0] }}</td><td>{{ item[1]|round(1) }}%</td></tr>
-{% endfor %}
-</table>
-
+<div id="smob_table" style="width: 30em"></div>
 <p><a href="/">main page</a></p>
 
 </body>
