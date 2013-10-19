@@ -2,7 +2,11 @@ CREATE TABLE smob (
   smobid serial PRIMARY KEY,
   name varchar(80) UNIQUE,
   stab boolean,
-  channel boolean
+  channel varchar(80),
+  shortname varchar(80),
+  location varchar(80),
+  pick integer,
+  search integer
 );
 CREATE TABLE load (
   loadid bigserial PRIMARY KEY,
