@@ -36,10 +36,13 @@ google.setOnLoadCallback(drawSmobTable);
 </script>
 
 <body>
-<h1>{{ smob[1] }}</h1>
+<h1>{{ smob[1] }}{% if smob[4] %} <small>({{ smob[4] }})</small>{% endif %}</h1>
+{% if smob[5] %}<p>located in {{ smob[5] }}</p>{% endif %}
 <p>killed {{ kills }} times</p>
-<p>stab: {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
-<p>channel: {% if smob[3] == True %}yes{% elif smob[3] == False %}no{% else %}unknown{% endif %}</p>
+<p><strong>stab:</strong> {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
+<p><strong>channel:</strong> {% if smob[3] %}{{ smob[3] }}{% else %}unknown{% endif %}</p>
+{% if smob[6] %}<p><strong>pick:</strong> {{ smob[6] }}</p>{% endif %}
+{% if smob[7] %}<p><strong>pick:</strong> {{ smob[7] }}</p>{% endif %}
 
 <div id="smob_table" style="width: 30em"></div>
 <p><a href="/">main page</a></p>
