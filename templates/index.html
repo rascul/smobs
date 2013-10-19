@@ -20,7 +20,7 @@ function drawSmobTable() {
 	var data = google.visualization.arrayToDataTable([
 	['smob', 'shortname', 'stab', 'channel', 'kills'],
 	{% for smob in smobs %}
-		['<a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a>', '{% if smob[4] %}{{ smob[4] }}{% endif %}', '{% if smob[2] == True %}yes{% elif smob[2] == False %}no{% endif %}', '{% if smob[3] == True %}yes{% elif smob[3] == False %}no{% endif %}', {{ kills[smob[0]] }}],
+		['<a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a>', '{% if smob[4] %}{{ smob[4] }}{% endif %}', '{% if smob[2] == True %}yes{% elif smob[2] == False %}no{% endif %}', '{% if smob[3] %}{{ smob[3] }}{% endif %}', {{ kills[smob[0]] }}],
 	{% endfor %}
 	]);      
 	visualization = new google.visualization.Table(document.getElementById('smob_table'));
