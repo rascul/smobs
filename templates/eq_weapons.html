@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See the COPYING file for more details. 
+-->
+
+<head>
+<meta charset="utf-8">
+<title>eq database</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load('visualization', '1', {packages: ['table', 'corechart']});</script>
+<script type="text/javascript">
+function drawEQTable() {
+	// Create and populate the data table.
+	var data = google.visualization.arrayToDataTable([
+	['item', 'type', 'ob', 'pb', 'weight', 'hands', 'rent'],
+	{% for item in items %}['<a href="/eq/{{ item[0] }}">{{ item[1] }}</a>', '<a href="/eq/weapons/{{ item[2] }}">{{ item[2] }}</a>', {% if item[3] != None %}{{ item[3] }}{% endif %}, {% if item[4] != None %}{{ item[4] }}{% endif %}, {% if item[5] != None %}{{ item[5] }}{% endif %}, {% if item[6] != None %}{{ item[6] }}{% endif %}, '{% if item[7] != None %}{{ item[7] }}{% endif %}'],
+	{% endfor %}
+	]);      
+	visualization = new google.visualization.Table(document.getElementById('eq_table'));
+	visualization.draw(data, {showRowNumber: true, allowHtml: true});
+}
+google.setOnLoadCallback(drawEQTable);
+</script>
+</head>
+<body>
+<h1>weapons</h1>
+<ul>
+	<li><a href="/eq/armor">armor</a></li>
+	<li><a href="/eq/trinks">trinks</a></li>
+	<li><a href="/eq/weapons">weapons</a></li>
+	<li><a href="/eq/misc">misc</a></li>
+</ul>
+
+<div id="eq_table"></div>
+<p><a href="/">back to main page</a></p>
+</body>
+</html>
+
