@@ -16,8 +16,7 @@ CREATE TABLE load (
 );
 CREATE TABLE item (
   itemid bigserial PRIMARY KEY,
-  name varchar(80) UNIQUE,
-  type varchar(20)
+  name varchar(80) UNIQUE
 );
 CREATE TABLE load_item (
   loadid bigserial references load(loadid),
