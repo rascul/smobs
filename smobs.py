@@ -26,7 +26,7 @@ def teardown_request(exception):
 	if db is not None:
 		db.close()
 
-@app.route('/submit', methods=['GET', 'POST'])
+@app.route('/smobs/submit', methods=['GET', 'POST'])
 def submit():
 	if request.method == 'GET':
 		return render_template('submit.html')
@@ -85,7 +85,7 @@ def submit():
 		return render_template('submitted.html')
 	return render_template('submit_error.html')
 
-@app.route('/smob/<int:smobid>')
+@app.route('/smobs/<int:smobid>')
 def smob(smobid):
 	cur = g.db.cursor()
 	cur.execute('select * from smob where smobid = %s', (smobid,))
