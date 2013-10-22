@@ -26,16 +26,16 @@ CREATE TABLE load_item (
 );
 CREATE TABLE weapon (
   itemid bigserial references item(itemid) PRIMARY KEY,
-  class varchar(20),
+  type varchar(20),
   ob integer,
   pb integer,
   weight float,
   hands float,
   rent integer
 );
-CREATE TABLE clothing (
+CREATE TABLE armor (
   itemid bigserial references item(itemid) PRIMARY KEY,
-  class varchar(20),
+  type varchar(20),
   db integer,
   pb integer,
   moves integer,
@@ -46,7 +46,7 @@ CREATE TABLE clothing (
 );
 CREATE TABLE trink (
   itemid bigserial references item(itemid) PRIMARY KEY,
-  class varchar(20),
+  type varchar(20),
   db float,
   pb float,
   moves integer,
