@@ -121,6 +121,58 @@ def smobs():
 		kills[smob[0]] = len(cur.fetchall())
 	return render_template('smobs.html', smobs=smobs, kills=kills)
 
+@app.route('/eq')
+def eq():
+	return render_template('eq.html')
+
+@app.route('/eq/armor/<eqtype>')
+def eq_armor_type(eqtype):
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, armor.type, armor.db, armor.pb, armor.moves, armor.abs, armor.weight, armor.rent, armor.sheath from item, armor where item.itemid = armor.itemid and armor.type = %s', (eqtype,))
+	items = cur.fetchall()
+	return render_template('eq_armor.html', items=items)
+
+
+@app.route('/eq/armor')
+def eq_armor():
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, armor.type, armor.db, armor.pb, armor.moves, armor.abs, armor.weight, armor.rent, armor.sheath from item, armor where item.itemid = armor.itemid')
+	items = cur.fetchall()
+	return render_template('eq_armor.html', items=items)
+
+@app.route('/eq/trinks')
+def eq_trinks():
+	return render_template('eq_trinks.html')
+
+@app.route('/eq/weapons/<eqtype>')
+def eq_weapon_type(eqtype):
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, weapon.type, weapon.ob, weapon.pb, weapon.weight, weapon.hands, weapon.rent from item, weapon where item.itemid = weapon.itemid and type = %s', (eqtype,))
+	items = cur.fetchall()
+	return render_template('eq_weapons.html', items=items)
+
+@app.route('/eq/weapons')
+def eq_weapons():
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, weapon.type, weapon.ob, weapon.pb, weapon.weight, weapon.hands, weapon.rent from item, weapon where item.itemid = weapon.itemid')
+	items = cur.fetchall()
+	return render_template('eq_weapons.html', items=items)
+
+@app.route('/eq/trinks/<eqtype>')
+def eq_trink_type(eqtype):
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, trink.type, trink.db, trink.pb, trink.moves, trink.weight, trink.rent, trink.sheath from item, trink where item.itemid = trink.itemid and type = %s', (eqtype,))
+	items = cur.fetchall()
+	return render_template('eq_trinks.html', items=items)
+
+@app.route('/eq/trinks')
+def eq_trinks():
+	cur = g.db.cursor()
+	cur.execute('select item.itemid, item.name, trink.type, trink.db, trink.pb, trink.moves, trink.weight, trink.rent, trink.sheath from item, trink where item.itemid = trink.itemid')
+	items = cur.fetchall()
+	return render_template('eq_trinks.html', items=items)
+
+
 @app.route('/')
 def index():
 	return render_template('index.html')
