@@ -110,8 +110,8 @@ def smob(smobid):
 		
 	return render_template('smob.html', smob=smob, kills=kills, items=newitems.items())
 
-@app.route('/')
-def index():
+@app.route('/smobs')
+def smobs():
 	cur = g.db.cursor()
 	cur.execute('select * from smob order by name')
 	smobs = cur.fetchall()
@@ -119,7 +119,11 @@ def index():
 	for smob in smobs:
 		cur.execute('select * from load where smobid = %s', (smob[0],))
 		kills[smob[0]] = len(cur.fetchall())
-	return render_template('index.html', smobs=smobs, kills=kills)
+	return render_template('smobs.html', smobs=smobs, kills=kills)
+
+@app.route('/')
+def index():
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=1234)

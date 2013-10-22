@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See the COPYING file for more details. 
+-->
+
+<head>
+<meta charset="utf-8">
+<title>smob database</title>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load('visualization', '1', {packages: ['table', 'corechart']});</script>
+<script type="text/javascript">
+function drawSmobTable() {
+	// Create and populate the data table.
+	var data = google.visualization.arrayToDataTable([
+	['smob', 'shortname', 'location', 'stab', 'channel', 'pick', 'search', 'kills'],
+	{% for smob in smobs %}
+		['<a href="/smob/{{ smob[0] }}">{{ smob[1] }}</a>', '{% if smob[4] %}{{ smob[4] }}{% endif %}', '{%if smob[5] %}{{ smob[5] }}{% endif %}', '{% if smob[2] == True %}yes{% elif smob[2] == False %}no{% endif %}', '{% if smob[3] %}{{ smob[3] }}{% endif %}', '{% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}none{% endif %}', '{% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}none{% endif %}', {{ kills[smob[0]] }}],
+	{% endfor %}
+	]);      
+	visualization = new google.visualization.Table(document.getElementById('smob_table'));
+	visualization.draw(data, {showRowNumber: true, allowHtml: true});
+}
+google.setOnLoadCallback(drawSmobTable);
+</script>
+
+</head>
+<body>
+<h1>smob database</h1>
+<p><a href="/submit">contribute</a></p>
+<div id="smob_table"></div>
+<p><a href="https://github.com/rascul/smobs">open sores</a></p>
+</body>
+</html>
