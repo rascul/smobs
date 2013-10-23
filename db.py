@@ -121,6 +121,14 @@ def smobs():
 		kills[smob[0]] = len(cur.fetchall())
 	return render_template('smobs.html', smobs=smobs, kills=kills)
 
+@app.route('/eq/<int:eqid>')
+def eq_item(eqid):
+	cur = g.db.cursor()
+	cur.execute('select item.*, armor.itemid as armorid, trink.itemid as trinkid, weapon.itemid as weaponid from item left join armor on armor.itemid = item.itemid left join trink on trink.itemid = item.itemid left join weapon on weapon.itemid = item.itemid where item.itemid = %s', (eqid,))
+	item = cur.fetchone()
+	
+	return render_template('eq_item.html', item=item)
+
 @app.route('/eq')
 def eq():
 	return render_template('eq.html')
@@ -147,7 +155,7 @@ def eq_trinks():
 @app.route('/eq/weapons/<eqtype>')
 def eq_weapon_type(eqtype):
 	cur = g.db.cursor()
-	cur.execute('select item.itemid, item.name, weapon.type, weapon.ob, weapon.pb, weapon.weight, weapon.hands, weapon.rent from item, weapon where item.itemid = weapon.itemid and type = %s', (eqtype,))
+	cur.execute('select item.itemid, item.name, weapon.type, weapon.ob, weapon.pb, weapon.weight, weapon.hands, weapon.rent from item, weapon where item.itemid = weapon.itemid and weapon.type = %s', (eqtype,))
 	items = cur.fetchall()
 	return render_template('eq_weapons.html', items=items)
 
@@ -161,7 +169,7 @@ def eq_weapons():
 @app.route('/eq/trinks/<eqtype>')
 def eq_trink_type(eqtype):
 	cur = g.db.cursor()
-	cur.execute('select item.itemid, item.name, trink.type, trink.db, trink.pb, trink.moves, trink.weight, trink.rent, trink.sheath from item, trink where item.itemid = trink.itemid and type = %s', (eqtype,))
+	cur.execute('select item.itemid, item.name, trink.type, trink.db, trink.pb, trink.moves, trink.weight, trink.rent, trink.sheath from item, trink where item.itemid = trink.itemid and trink.type = %s', (eqtype,))
 	items = cur.fetchall()
 	return render_template('eq_trinks.html', items=items)
 
