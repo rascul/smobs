@@ -183,6 +183,10 @@ def eq():
 	descs = cur.description
 	return render_template('eq.html', title='equipment', items=items, descs=descs)
 
+@app.route('/quests')
+def quests():
+	return render_template('quests.html', title='quests')
+
 @app.route('/')
 def index():
 	return render_template('index.html', title='wotmud db')
