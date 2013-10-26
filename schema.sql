@@ -16,7 +16,8 @@ CREATE TABLE load (
 );
 CREATE TABLE item (
   itemid bigserial PRIMARY KEY,
-  name varchar(80) UNIQUE
+  name varchar(80) UNIQUE,
+  type varchar(20)
 );
 CREATE TABLE load_item (
   loadid bigserial references load(loadid),
@@ -31,7 +32,8 @@ CREATE TABLE weapon (
   pb integer,
   weight float,
   hands float,
-  rent integer
+  rent integer,
+  name varchar(80)
 );
 CREATE TABLE armor (
   itemid bigserial references item(itemid) PRIMARY KEY,
@@ -42,7 +44,8 @@ CREATE TABLE armor (
   abs float,
   weight float,
   rent integer,
-  sheath boolean
+  sheath boolean,
+  name varchar(80)
 );
 CREATE TABLE trink (
   itemid bigserial references item(itemid) PRIMARY KEY,
@@ -52,5 +55,6 @@ CREATE TABLE trink (
   moves integer,
   weight float,
   rent integer,
-  sheath boolean
+  sheath boolean,
+  name varchar(80)
 );
