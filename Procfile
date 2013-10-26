@@ -1,1 +1,1 @@
-web: gunicorn smobs:app
+web: gunicorn db:app
