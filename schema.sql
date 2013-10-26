@@ -58,3 +58,13 @@ CREATE TABLE trink (
   sheath boolean,
   name varchar(80)
 );
+CREATE TABLE quest_location (
+  locationid serial PRIMARY KEY,
+  questmob varchar(80),
+  location varchar(80)
+);
+CREATE TABLE quest (
+  questid serial PRIMARY KEY,
+  locationid serial references quest_location(locationid),
+  quest text
+);
