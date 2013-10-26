@@ -1,52 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!--
-Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
-This work is free. You can redistribute it and/or modify it under the
-terms of the Do What The Fuck You Want To Public License, Version 2,
-as published by Sam Hocevar. See the COPYING file for more details. 
--->
-
-<head>
-<meta charset="utf-8">
-<title>{{ smob[1] }}</title>
-</head>
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">google.load('visualization', '1', {packages: ['table', 'corechart']});</script>
-<script type="text/javascript">
-function drawSmobTable() {
-	// Create and populate the data table.
-	var data = google.visualization.arrayToDataTable([
-	['item', 'chance'],
-	{% for item in items %}
-		['{{ item[0] }}', {{ item[1] }}],
-	{% endfor %}
-	]);      
-	var formatter = new google.visualization.NumberFormat({
-		fractionDigits: 1,
-		suffix: '%'
-	});
-	formatter.format(data, 1);
-	visualization = new google.visualization.Table(document.getElementById('smob_table'));
-	visualization.draw(data, {showRowNumber: true, allowHtml: true});
-}
-google.setOnLoadCallback(drawSmobTable);
-</script>
-
-<body>
+{% extends "base.html" %}
+{% block body %}
 <h1>{{ smob[1] }}{% if smob[4] %} <small>({{ smob[4] }})</small>{% endif %}</h1>
-{% if smob[5] %}<p>located in {{ smob[5] }}</p>{% endif %}
-<p>killed {{ kills }} times</p>
+{% if smob[5] %}<p><strong>location:</strong> {{ smob[5] }}</p>{% endif %}
+<p><strong>kills:</strong> {{ kills }} times</p>
 <p><strong>stab:</strong> {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
 <p><strong>channel:</strong> {% if smob[3] %}{{ smob[3] }}{% else %}unknown{% endif %}</p>
 {% if smob[6] %}<p><strong>pick:</strong> {{ smob[6] }}</p>{% endif %}
 {% if smob[7] %}<p><strong>pick:</strong> {{ smob[7] }}</p>{% endif %}
 
-<div id="smob_table" style="width: 30em"></div>
-<p><a href="/smobs">back to smob db</a></p>
-<p><a href="/">back to the main page</a></p>
-
-</body>
-</html>
+<table class="sortable">
+	<tr>
+		<th><a href="#" onclick="return false;">item</a></th>
+		<th><a href="#" onclick="return false;">chance</a></th>
+	</tr>
+	{% for item in items %}
+		<tr><td>{{ item[0] }}</td><td>{{ item[1]|round }}%</td></tr>
+	{% endfor %}
+</table>
+{% endblock %}

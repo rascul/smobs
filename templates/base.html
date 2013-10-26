@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See the COPYING file for more details. 
+-->
+
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<script src="/static/sorttable.js"></script>
+<link type="text/css" rel="stylesheet" href="/static/db.css">
+</head>
+<body>
+
+<div id="menu">
+<ul>
+    <li><a href="/">db</a></li>
+    <li><a href="/eq">eq</a>
+        <ul>
+            <li><a href="/eq/armor">armor</a></li>
+            <li><a href="/eq/trink">trink</a></li>
+            <li><a href="/eq/weapon">weapon</a></li>
+        </ul>
+    </li>
+    <li><a href="/smobs">smobs</a>
+</ul>
+</div>
+
+<br>
+
+<h1>{{ title }}</h1>
+
+{% block body %}
+{% endblock %}
+
+<p><a href="https://github.com/rascul/smobs">open sores</a></p>
+
+</body>
+</html>

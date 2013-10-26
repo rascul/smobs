@@ -1,0 +1,54 @@
+table tbody tr:nth-child(even) {
+	background: #ffffff;
+}
+table tbody tr:nth-child(odd) {
+	background: #f0f0f0;
+}
+table tbody tr:nth-child(2n):hover {
+	background: #dddddd;
+}
+table tbody tr:nth-child(2n+1):hover {
+	background: #dddddd;
+}
+
+	
+div#menu ul {
+    font-family: Arial, Verdana;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+div#menu ul li {
+    display: block;
+    position: relative;
+    float: left;
+}
+div#menu li ul {
+    display: none;
+}
+div#menu ul li a {
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    border-top: 1px solid #ffffff;
+    padding: 5px 15px 5px 15px;
+    background: #1e7c9a;
+    margin-left: 1px;
+    white-space: nowrap;
+}
+div#menu ul li a:hover {
+	background: #3b3b3b;
+}
+div#menu li:hover ul {
+    display: block;
+    position: absolute;
+}
+div#menu li:hover li {
+    float: none;
+    font-size: 11px;
+}
+div#menu li:hover a { background: #3b3b3b; }
+div#menu li:hover li a:hover {
+    background: #1e7c9a;
+}
