@@ -106,8 +106,11 @@ def smob(smobid):
 		cur.execute('select name from item where itemid = %s', (item[0],))
 		row = cur.fetchone()
 		newitems[row[0]] = float(item[1]) / float(kills) * 100
-		
-	return render_template('smob.html', smob=smob, kills=kills, items=newitems.items())
+	
+	title = smob[1]
+	if smob[4]:
+		title += " (" + smob[4] + ")"
+	return render_template('smob.html', title=title, smob=smob, kills=kills, items=newitems.items())
 
 @app.route('/smobs')
 def smobs():

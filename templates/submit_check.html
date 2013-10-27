@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!--
-Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
-This work is free. You can redistribute it and/or modify it under the
-terms of the Do What The Fuck You Want To Public License, Version 2,
-as published by Sam Hocevar. See the COPYING file for more details. 
--->
-
-<head>
-<meta charset="utf-8">
-<title>contribute</title>
-<style type="text/css">
-body {
-	text-align: center;
-}
-table {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: left;
-}
-th {
-	text-align: center;
-}
-</style>
-</head>
-<body>
+{% extends "base.html" %}
+{% set title = "verify data" %}
+{% block body %}
 <p>verify data is correct, if not then make corrections</p>
 <p>if smob name is not properly discovered, add first a line like <code>smob: wicked fade</code> before any other lines</p>
 
@@ -40,6 +15,4 @@ th {
 <p><textarea autofocus name="smob" rows="32" cols="120">{{ data }}</textarea></p>
 <p><button id="recheck" value="recheck" name="button">recheck</button> <button id="submit" value="submit" name="button">submit</button></p>
 </form>
-
-</body>
-</html>
+{% endblock %}

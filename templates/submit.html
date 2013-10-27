@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!--
-Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
-This work is free. You can redistribute it and/or modify it under the
-terms of the Do What The Fuck You Want To Public License, Version 2,
-as published by Sam Hocevar. See the COPYING file for more details. 
--->
-
-<head>
-<meta charset="utf-8">
-<title>contribute</title>
-<script>
-function ctrl_enter(e) {
-	if (e.keyCode == 13 && e.ctrlKey) {
-		document.getElementById("submit_button").click();
-	}
-}
-</script>
-<style type="text/css">
-body {
-	text-align: center;
-}
-</style>
-</head>
-<body>
-<h1>smob database submission</h1>
+{% extends "base.html" %}
+{% set title = "contribute to smob db" %}
+{% block body %}
 <p>use this form to submit smob data</p>
 <p>paste the log of <code>get all corpse</code><br>
 if there is no named corpse, or no corpse at all, include the smob name somewhere <code>smob: a tall thief</code> with the log of <code>get all</code><br>
@@ -34,8 +9,5 @@ be sure to include the stuff you get from a pack or other container, or off the 
 <form action="/smobs/submit" method="post">
 <p><textarea autofocus name="smob" rows="32" cols="120" onkeydown="ctrl_enter(event);"></textarea></p>
 <p><button id="submit_button" value="recheck" name="button">submit</button><br>
-<small>or hit ctrl+enter</small></p>
 </form>
-
-</body>
-</html>
+{% endblock %}

@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!--
-Copyright (C) 2013 Ray Schulz <rascul3@gmail.com>
-This work is free. You can redistribute it and/or modify it under the
-terms of the Do What The Fuck You Want To Public License, Version 2,
-as published by Sam Hocevar. See the COPYING file for more details. 
--->
-
-<head>
-<meta charset="utf-8">
-<title>contribute</title>
-<style type="text/css">
-body {
-text-align: center;
-}
-</style>
-</head>
-<body>
+{% extends "base.html" %}
+{% set title = "submitted" %}
+{% block body %}
 <p>your data has been submitted</p>
 <p><a href="/smobs/submit">submit another</a></p>
-<p><a href="/smobs">back to smob db</a></p>
-<p><a href="/">back to the main page</a></p>
-
-</body>
-</html>
+{% endblock %}
