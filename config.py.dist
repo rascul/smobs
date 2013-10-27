@@ -1,3 +1,8 @@
+# this is an example database string, you must change it to match your stuff
+# note that not all fields are required
 DATABASE = 'dbname=smobs user=smobs password=smobs host=smobs.com port=1234'
+
+# you probably want this to be false in a production environment, but for
+# development it could be very useful to set to true
 DEBUG = False
 
