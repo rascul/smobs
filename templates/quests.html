@@ -1,4 +1,16 @@
 {% extends "base.html" %}
 {% block body %}
+
+<table class="sortable">
+	<tr>
+		<th><a href="#" onclick="return false;">location</a></th>
+	</tr>
+	{% for location in locations %}
+	<tr>
+		<td><a href="/quests/{{ location[0] }}">{{ location[1] }}</a></td>
+	</tr>
+	{% endfor %}
+</table>
+
 <p>this is for quests</p>
 {% endblock %}

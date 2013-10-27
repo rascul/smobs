@@ -185,7 +185,10 @@ def eq():
 
 @app.route('/quests')
 def quests():
-	return render_template('quests.html', title='quests')
+	cur = g.db.cursor()
+	cur.execute('select distinct locationid, location from quest_location')
+	locations = cur.fetchall()
+	return render_template('quests.html', title='quests', locations=locations)
 
 @app.route('/')
 def index():
