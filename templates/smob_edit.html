@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block body %}
+<ul>
+	<li>Only enter accurate data</li>
+	<li>Leave field blank if unknown</li>
+	<li>Leave out percent signs (%)</li>
+</ul>
+
+<form action="/smobs/edit/submit" method="post">
+
+<table>
+	<tr>
+		<td style="text-align: right"><strong>stab</strong></td>
+		<td style="text-align: center">
+			<select name="stab" style="width: 100%">
+				{% if smob[2] == True %}
+					<option value="true" selected>Yes</option>
+					<option value="false">No</option>
+					<option value="unknown">Unknown</option>
+				{% elif smob[2] == False %}
+					<option value="true">Yes</option>
+					<option value="false" selected>No</option>
+					<option value="unknown">Unknown</option>
+				{% else %}
+					<option value="true">Yes</option>
+					<option value="false">No</option>
+					<option value="unknown" selected>Unknown</option>
+				{% endif %}
+			</select>
+		</td>
+		<td>Stabbable</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align: right"><strong>channel</strong></td>
+		<td style="text-align: center"><input type="text" name="channel" maxlength=80 value="{% if smob[3] %}{{ smob[3] }}{% endif %}"></td>
+		<td>Yes, no, hard, or a description of what can happen when channeling</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align: right"><strong>shortname</strong></td>
+		<td style="text-align: center"><input type="text" name="shortname" maxlength=80 value="{% if smob[4] %}{{ smob[4] }}{% endif %}"></td>
+		<td>Commonly used name for the smob</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align: right"><strong>location</strong></td>
+		<td style="text-align: center"><input type="text" name="location" maxlength=80 value="{% if smob[5] %}{{ smob[5] }}{% endif %}"></td>
+		<td>General location of smob</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align: right"><strong>pick</strong></td>
+		<td style="text-align: center"><input type="number" name="pick" value="{% if smob[6] %}{{ smob[6] }}{% endif %}"></td>
+		<td>Amount of pick requred</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align: right"><strong>search:</strong></td>
+		<td style="text-align: center"><input type="number" name="search" value="{% if smob[7] %}{{ smob[7] }}{% endif %}"></td>
+		<td>Amount of search required</td>
+	</tr>
+</table>
+
+<input type="hidden" name="smobid" value="{{ smob[0] }}" readonly>
+<input type="hidden" name="name" value="{{ smob[1] }}" readonly>
+
+<p><button id="submit_button" value="recheck" name="button">submit</button><br>
+</form>
+
+
+{% endblock %}
