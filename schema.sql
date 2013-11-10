@@ -58,13 +58,19 @@ CREATE TABLE trink (
   sheath boolean,
   name varchar(80)
 );
-CREATE TABLE quest_location (
-  locationid serial PRIMARY KEY,
-  location varchar(80)
+CREATE TABLE herb (
+  itemid bigserial references item(itemid) PRIMARY KEY,
+  name varchar(80),
+  locations text,
+  weight float,
+  rent integer
 );
-CREATE TABLE quest (
-  questid serial PRIMARY KEY,
-  locationid serial references quest_location(locationid),
-  mob varchar(80),
-  quest text
+CREATE TABLE potion (
+  itemid bigserial references item(itemid) PRIMARY KEY,
+  name varchar(80),
+  recipe text,
+  effect varchar(80),
+  weight float,
+  rent integer
 );
+
