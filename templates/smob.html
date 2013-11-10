@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
+
+<p><a href="/smobs/edit/{{ smobid }}">edit this smob</a></p>
+
 {% if smob[5] %}<p><strong>location:</strong> {{ smob[5] }}</p>{% endif %}
 <p><strong>kills:</strong> {{ kills }} times</p>
 <p><strong>stab:</strong> {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
