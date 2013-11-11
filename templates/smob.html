@@ -3,12 +3,12 @@
 
 <p><a href="/smobs/edit/{{ smobid }}">edit this smob</a></p>
 
-{% if smob[5] %}<p><strong>location:</strong> {{ smob[5] }}</p>{% endif %}
-<p><strong>kills:</strong> {{ kills }} times</p>
+<p><strong>location:</strong>{% if smob[5] %}{{ smob[5] }}{% endif %}</p>
+<p><strong>kills:</strong> {{ kills }}</p>
 <p><strong>stab:</strong> {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
-<p><strong>channel:</strong> {% if smob[3] %}{{ smob[3] }}{% else %}unknown{% endif %}</p>
-{% if smob[6] %}<p><strong>pick:</strong> {{ smob[6] }}</p>{% endif %}
-{% if smob[7] %}<p><strong>pick:</strong> {{ smob[7] }}</p>{% endif %}
+<p><strong>channel:</strong> {% if smob[3] %}{{ smob[3] }}{% endif %}</p>
+<p><strong>pick:</strong> {% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}none{% endif %}</p>
+<p><strong>search:</strong> {% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}none{% endif %}</p>
 
 <table class="sortable">
 	<tr>

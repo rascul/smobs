@@ -50,13 +50,13 @@
 	
 	<tr>
 		<td style="text-align: right"><strong>pick</strong></td>
-		<td style="text-align: center"><input type="number" name="pick" value="{% if smob[6] %}{{ smob[6] }}{% endif %}"></td>
+		<td style="text-align: center"><input type="number" name="pick" value="{% if smob[6] >= 0 %}{{ smob[6] }}{% endif %}"></td>
 		<td>Amount of pick requred</td>
 	</tr>
 	
 	<tr>
 		<td style="text-align: right"><strong>search:</strong></td>
-		<td style="text-align: center"><input type="number" name="search" value="{% if smob[7] %}{{ smob[7] }}{% endif %}"></td>
+		<td style="text-align: center"><input type="number" name="search" value="{% if smob[7] >= 0 %}{{ smob[7] }}{% endif %}"></td>
 		<td>Amount of search required</td>
 	</tr>
 </table>
