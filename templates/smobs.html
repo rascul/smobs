@@ -20,8 +20,8 @@
 		<td>{%if smob[5] %}{{ smob[5] }}{% endif %}</td>
 		<td>{% if smob[2] == True %}yes{% elif smob[2] == False %}no{% endif %}</td>
 		<td>{% if smob[3] %}{{ smob[3] }}{% endif %}</td>
-		<td>{% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}none{% endif %}</td>
-		<td>{% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}none{% endif %}</td>
+		<td>{% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}nada{% endif %}</td>
+		<td>{% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}nada{% endif %}</td>
 		<td>{{ kills[smob[0]] }}</td>
 	</tr>
 {% endfor %}
