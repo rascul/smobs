@@ -5,7 +5,7 @@
 
 import re
 import psycopg2
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g, redirect
 #from contextlib import closing
 from datetime import datetime
 import config
@@ -84,6 +84,63 @@ def submit():
 		return render_template('submitted.html')
 	return render_template('submit_error.html')
 
+@app.route('/smobs/edit/submit', methods=['POST'])
+def smob_edit_submit():
+	cur = g.db.cursor()
+	smobid = request.form.get('smobid')
+	
+	cur.execute('select smobid, name, stab, channel, shortname, location, pick, search from smob where smobid = %s', (smobid,))
+	oldsmob = cur.fetchone()
+	
+	stab = oldsmob[2]
+	channel = oldsmob[3]
+	shortname = oldsmob[4]
+	location = oldsmob[5]
+	pick = oldsmob[6]
+	search = oldsmob[7]
+	
+	if request.form.get('stab') is not oldsmob[2]:
+		if request.form.get('stab') is 'yes':
+			stab = True
+		elif request.form.get('stab') is 'no':
+			stab = False
+		else:
+			stab = None
+	if request.form.get('channel') is not oldsmob[3]:
+		channel = request.form.get('channel')
+	if request.form.get('shortname') is not oldsmob[4]:
+		shortname = request.form.get('shortname')
+	if request.form.get('location') is not oldsmob[5]:
+		location = request.form.get('location')
+	if request.form.get('pick') is not oldsmob[6]:
+		pick = request.form.get('pick').rstrip('%')
+	if request.form.get('search') is not oldsmob[7]:
+		search = request.form.get('search').rstrip('%')
+	
+	if pick == '':
+		pick = None
+	if search == '':
+		search = None
+	
+	cur.execute('update smob set stab = %s, channel = %s, shortname = %s, location = %s, pick = %s, search = %s where smobid = %s', (stab, channel, shortname, location, pick, search, smobid))
+	
+	g.db.commit()
+	
+	return redirect('/smobs/' + smobid)
+
+@app.route('/smobs/edit/<int:smobid>')
+def smob_edit(smobid):
+	cur = g.db.cursor()
+	cur.execute('select * from smob where smobid = %s', (smobid,))
+	smob = cur.fetchone()
+	cur.execute('select loadid from load where smobid = %s', (smobid,))
+	loads = cur.fetchall()
+	
+	title = smob[1]
+	if smob[4]:
+		title += " (" + smob[4] + ")"
+	return render_template('smob_edit.html', title=title, smob=smob)
+
 @app.route('/smobs/<int:smobid>')
 def smob(smobid):
 	cur = g.db.cursor()
@@ -110,7 +167,7 @@ def smob(smobid):
 	title = smob[1]
 	if smob[4]:
 		title += " (" + smob[4] + ")"
-	return render_template('smob.html', title=title, smob=smob, kills=kills, items=newitems.items())
+	return render_template('smob.html', title=title, smob=smob, kills=kills, items=newitems.items(), smobid=smobid)
 
 @app.route('/smobs')
 def smobs():
