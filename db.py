@@ -89,7 +89,7 @@ def smob_edit_submit():
 	cur = g.db.cursor()
 	smobid = request.form.get('smobid')
 	
-	cur.execute('select smobid, name, stab, channel, shortname, location, pick, search from smob where smobid = %s', (smobid,))
+	cur.execute('select smobid, name, stab, channel, shortname, location, pick, search, notes from smob where smobid = %s', (smobid,))
 	oldsmob = cur.fetchone()
 	
 	stab = oldsmob[2]
@@ -98,6 +98,7 @@ def smob_edit_submit():
 	location = oldsmob[5]
 	pick = oldsmob[6]
 	search = oldsmob[7]
+	notes = oldsmob[8]
 	
 	if request.form.get('stab') == 'yes':
 		stab = True
@@ -116,13 +117,14 @@ def smob_edit_submit():
 		pick = request.form.get('pick').rstrip('%')
 	if request.form.get('search') is not oldsmob[7]:
 		search = request.form.get('search').rstrip('%')
-	
+	if request.form.get('notes').strip() is not oldsmob[8]:
+		notes = request.form.get('notes').strip()
 	if pick == '':
 		pick = None
 	if search == '':
 		search = None
 	
-	cur.execute('update smob set stab = %s, channel = %s, shortname = %s, location = %s, pick = %s, search = %s where smobid = %s', (stab, channel, shortname, location, pick, search, smobid))
+	cur.execute('update smob set stab = %s, channel = %s, shortname = %s, location = %s, pick = %s, search = %s, notes = %s where smobid = %s', (stab, channel, shortname, location, pick, search, notes, smobid))
 	
 	g.db.commit()
 	
@@ -144,7 +146,7 @@ def smob_edit(smobid):
 @app.route('/smobs/<int:smobid>')
 def smob(smobid):
 	cur = g.db.cursor()
-	cur.execute('select * from smob where smobid = %s', (smobid,))
+	cur.execute('select smobid, name, stab, channel, shortname, location, pick, search, notes from smob where smobid = %s', (smobid,))
 	smob = cur.fetchone()
 	cur.execute('select loadid from load where smobid = %s', (smobid,))
 	loads = cur.fetchall()
