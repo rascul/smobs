@@ -13,16 +13,16 @@
 		<td style="text-align: center">
 			<select name="stab" style="width: 100%">
 				{% if smob[2] == True %}
-					<option value="true" selected>Yes</option>
-					<option value="false">No</option>
+					<option value="yes" selected>Yes</option>
+					<option value="no">No</option>
 					<option value="unknown">Unknown</option>
 				{% elif smob[2] == False %}
-					<option value="true">Yes</option>
-					<option value="false" selected>No</option>
+					<option value="yes">Yes</option>
+					<option value="no" selected>No</option>
 					<option value="unknown">Unknown</option>
 				{% else %}
-					<option value="true">Yes</option>
-					<option value="false">No</option>
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
 					<option value="unknown" selected>Unknown</option>
 				{% endif %}
 			</select>

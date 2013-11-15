@@ -99,13 +99,13 @@ def smob_edit_submit():
 	pick = oldsmob[6]
 	search = oldsmob[7]
 	
-	if request.form.get('stab') is not oldsmob[2]:
-		if request.form.get('stab') is 'yes':
-			stab = True
-		elif request.form.get('stab') is 'no':
-			stab = False
-		else:
-			stab = None
+	if request.form.get('stab') == 'yes':
+		stab = True
+	elif request.form.get('stab') == 'no':
+		stab = False
+	elif request.form.get('stab') == 'unknown':
+		stab = None
+	
 	if request.form.get('channel') is not oldsmob[3]:
 		channel = request.form.get('channel')
 	if request.form.get('shortname') is not oldsmob[4]:
