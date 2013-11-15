@@ -6,7 +6,8 @@ CREATE TABLE smob (
   shortname varchar(80),
   location varchar(80),
   pick integer,
-  search integer
+  search integer,
+  notes text
 );
 CREATE TABLE load (
   loadid bigserial PRIMARY KEY,
