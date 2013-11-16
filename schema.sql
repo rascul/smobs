@@ -67,6 +67,7 @@ CREATE TABLE herb (
   rent integer
 );
 CREATE TABLE potion (
+  potionid bigserial primary key,
   itemid bigserial references item(itemid) PRIMARY KEY,
   name varchar(80),
   recipe text,
@@ -74,4 +75,11 @@ CREATE TABLE potion (
   weight float,
   rent integer
 );
+CREATE TABLE ingredient (
+  potionid bigserial references potion(potionid),
+  itemid bigserial references item(itemid),
+  quantity integer,
+  name varchar(80)
+);
+
 
