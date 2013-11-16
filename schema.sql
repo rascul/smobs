@@ -70,7 +70,6 @@ CREATE TABLE potion (
   potionid bigserial primary key,
   itemid bigserial references item(itemid) PRIMARY KEY,
   name varchar(80),
-  recipe text,
   effect varchar(80),
   weight float,
   rent integer
