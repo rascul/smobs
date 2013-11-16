@@ -9,7 +9,7 @@
 </tr>
 <tr>
 {% for field in item %}
-<td>{{ field }}</td>
+<td>{% if field is not none %}{{ field }}{% endif %}</td>
 {% endfor %}
 </tr>
 </table>
