@@ -185,16 +185,19 @@ def smobs():
 @app.route('/eq/<int:eqid>')
 def eq_item(eqid):
 	cur = g.db.cursor()
+	
 	cur.execute('select type from item where itemid = %s', (eqid,))
 	itemtype = cur.fetchone()[0]
-	query = ''
+	
 	if itemtype == 'armor':
-		query = 'select name, itemid, type, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s'
+		cur.execute('select name, type, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s', (eqid,))
 	elif itemtype == 'weapon':
-		query = 'select name, itemid, type, ob, pb, weight, hands, rent from weapon where itemid = %s'
+		cur.execute('select name, type, ob, pb, weight, hands, rent from weapon where itemid = %s', (eqid,))
 	elif itemtype == 'trink':
-		query = 'select name, itemid, type, db, pb, moves, weight, rent, sheath from trink where itemid = %s'
-	cur.execute(query, (eqid,))
+		cur.execute('select name, type, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (eqid,))
+	else:
+		cur.execute('select name, type from item where itemid = %s', (eqid,))
+	
 	item = cur.fetchone()
 	desc = cur.description
 	
