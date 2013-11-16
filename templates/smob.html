@@ -17,7 +17,7 @@
 		<th><a href="#" onclick="return false;">chance</a></th>
 	</tr>
 	{% for item in items %}
-		<tr><td>{{ item[0] }}</td><td>{{ item[1]|round }}%</td></tr>
+		<tr><td><a href="/eq/{{ item[0] }}">{{ item[1] }}</a></td><td>{{ item[2]|round }}%</td></tr>
 	{% endfor %}
 </table>
 {% endblock %}

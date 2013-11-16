@@ -160,16 +160,16 @@ def smob(smobid):
 			else:
 				items[int(row[1])] += 1
 	
-	newitems = {}
+	newitems = list()
 	for item in items.items():
 		cur.execute('select name from item where itemid = %s', (item[0],))
 		row = cur.fetchone()
-		newitems[row[0]] = float(item[1]) / float(kills) * 100
+		newitems.append((item[0], row[0], float(item[1]) / float(kills) * 100))
 	
 	title = smob[1]
 	if smob[4]:
 		title += " (" + smob[4] + ")"
-	return render_template('smob.html', title=title, smob=smob, kills=kills, items=newitems.items(), smobid=smobid)
+	return render_template('smob.html', title=title, smob=smob, kills=kills, items=newitems, smobid=smobid)
 
 @app.route('/smobs')
 def smobs():
