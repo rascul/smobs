@@ -195,6 +195,18 @@ def eq_item(eqid):
 		cur.execute('select name, type, ob, pb, weight, hands, rent from weapon where itemid = %s', (eqid,))
 	elif itemtype == 'trink':
 		cur.execute('select name, type, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (eqid,))
+	
+	#elif itemtype == 'herb':
+	#elif itemtype == 'potion':
+	
+	#elif itemtype == 'key':
+	#elif itemtype == 'container':
+	#elif itemtype == 'light':
+	#elif itemtype == 'horseeq':
+	#elif itemtype == 'food':
+	#elif itemtype == 'money':
+	#elif itemtype == 'misc':
+	
 	else:
 		cur.execute('select name, type from item where itemid = %s', (eqid,))
 	
