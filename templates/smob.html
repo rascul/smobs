@@ -3,13 +3,38 @@
 
 <p><a href="/smobs/edit/{{ smobid }}">edit this smob</a></p>
 
-<p><strong>location:</strong>{% if smob[5] %}{{ smob[5] }}{% else %}unknown{% endif %}</p>
-<p><strong>kills:</strong> {{ kills }}</p>
-<p><strong>stab:</strong> {% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</p>
-<p><strong>channel:</strong> {% if smob[3] %}{{ smob[3] }}{% else %}unknown{% endif %}</p>
-<p><strong>pick:</strong> {% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}nada{% else %}unknown{% endif %}</p>
-<p><strong>search:</strong> {% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}nada{% else %}unknown{% endif %}</p>
-<p><strong>notes:</strong> {% if smob[8] %}<pre>{{ smob[8] }}</pre>{% else %}nada{% endif %}</p>
+<table>
+	<tr>
+		<td><strong>location</strong></td>
+		<td>{% if smob[5] %}{{ smob[5] }}{% else %}unknown{% endif %}</td>
+	</tr>
+	<tr>
+		<td><strong>kills</strong></td>
+		<td>{{ kills }}</td>
+	</tr>
+	<tr>
+		<td><strong>stab</strong></td>
+		<td>{% if smob[2] == True %}yes{% elif smob[2] == False %}no{% else %}unknown{% endif %}</td>
+	</tr>
+	<tr>
+		<td><strong>channel</strong></td>
+		<td>{% if smob[3] %}{{ smob[3] }}{% else %}unknown{% endif %}</td>
+	</tr>
+	<tr>
+		<td><strong>pick</strong></td>
+		<td>{% if smob[6] > 0 %}{{ smob[6] }}{% elif smob[6] == 0 %}nada{% else %}unknown{% endif %}</td>
+	</tr>
+	<tr>
+		<td><strong>search</strong></td>
+		<td>{% if smob[7] > 0 %}{{ smob[7] }}{% elif smob[7] == 0 %}nada{% else %}unknown{% endif %}</td>
+	</tr>
+	<tr>
+		<td><strong>notes</strong></td>
+		<td><pre style="font: inherit;display: inline;">{% if smob[8] %}{{ smob[8] }}{% else %}nada{% endif %}</pre></td>
+	</tr>
+</table>
+
+<br>
 
 <table class="sortable">
 	<tr>

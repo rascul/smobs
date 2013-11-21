@@ -1,23 +1,25 @@
 {% extends "base.html" %}
 {% block body %}
 
+<p><a href="/eq/edit/{{ itemid }}">edit this item</a></p>
+
 <table>
-<tr>
-{% for field in desc %}
-<th>{{ field[0] }}</th>
-{% endfor %}
-</tr>
-<tr>
-{% for field in item %}
-<td>{% if field is not none %}{{ field }}{% endif %}</td>
-{% endfor %}
-</tr>
+	<tr>
+	{% for field in desc %}
+		<th>{{ field[0] }}</th>
+	{% endfor %}
+	</tr>
+	<tr>
+	{% for field in item %}
+		<td>{% if field is not none %}{{ field }}{% endif %}</td>
+	{% endfor %}
+	</tr>
 </table>
 
 <p><strong>loads:</strong></p>
 <ul>
 {% for smob in smobs %}
-<li><a href="/smobs/{{ smob[0] }}">{{ smob[1] }}</a></li>
+	<li><a href="/smobs/{{ smob[0] }}">{{ smob[1] }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

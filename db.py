@@ -6,7 +6,6 @@
 import re
 import psycopg2
 from flask import Flask, render_template, request, g, redirect
-#from contextlib import closing
 from datetime import datetime
 import config
 
@@ -182,55 +181,92 @@ def smobs():
 		kills[smob[0]] = len(cur.fetchall())
 	return render_template('smobs.html', smobs=smobs, kills=kills, title='smobs')
 
+@app.route('/eq/edit/submit', methods=['POST'])
+def eq_edit_submit():
+	cur = g.db.cursor()
+	
+	itemid = request.form.get('itemid')
+	
+	if request.form.get('type'):
+		cur.execute('update item set type = %s where itemid = %s', (request.form.get('type'), itemid))
+		g.db.commit()
+	#else:
+		
+	
+	return redirect('/eq/' + itemid)
+
+@app.route('/eq/edit/<int:eqid>')
+def eq_edit_item(eqid):
+	cur = g.db.cursor()
+	
+	cur.execute('select name, type from item where itemid = %s', (eqid,))
+	row = cur.fetchone()
+	title = row[0]
+	itemtype = row[1]
+	
+	if itemtype == 'armor':
+		cur.execute('select subtype, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s', (eqid,))
+	elif itemtype == 'weapon':
+		cur.execute('select subtype, ob, pb, weight, hands, rent from weapon where itemid = %s', (eqid,))
+	elif itemtype == 'trink':
+		cur.execute('select subtype, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (eqid,))
+	else:
+		cur.execute('select type from item where itemid = %s', (eqid,))
+	
+	item = cur.fetchone()
+	if not item:
+		item = ""
+	desc = cur.description
+	if not desc:
+		desc = ""
+	
+	return render_template('eq_edit_item.html', title=title, itemtype=itemtype, item=item, desc=desc, itemid=eqid)
+
 @app.route('/eq/<int:eqid>')
 def eq_item(eqid):
 	cur = g.db.cursor()
 	
-	cur.execute('select type from item where itemid = %s', (eqid,))
-	itemtype = cur.fetchone()[0]
+	cur.execute('select name, type from item where itemid = %s', (eqid,))
+	row = cur.fetchone()
+	title = row[0]
+	itemtype = row[1]
 	
 	if itemtype == 'armor':
-		cur.execute('select name, type, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s', (eqid,))
+		cur.execute('select subtype, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s', (eqid,))
 	elif itemtype == 'weapon':
-		cur.execute('select name, type, ob, pb, weight, hands, rent from weapon where itemid = %s', (eqid,))
+		cur.execute('select subtype, ob, pb, weight, hands, rent from weapon where itemid = %s', (eqid,))
 	elif itemtype == 'trink':
-		cur.execute('select name, type, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (eqid,))
-	
-	#elif itemtype == 'herb':
-	#elif itemtype == 'potion':
-	
-	#elif itemtype == 'key':
-	#elif itemtype == 'container':
-	#elif itemtype == 'light':
-	#elif itemtype == 'horseeq':
-	#elif itemtype == 'food':
-	#elif itemtype == 'money':
-	#elif itemtype == 'misc':
-	
+		cur.execute('select subtype, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (eqid,))
 	else:
-		cur.execute('select name, type from item where itemid = %s', (eqid,))
+		cur.execute('select type from item where itemid = %s', (eqid,))
 	
 	item = cur.fetchone()
+	if not item:
+		item = ""
 	desc = cur.description
+	if not desc:
+		desc = ""
 	
 	cur.execute('select distinct smob.smobid, smob.name from smob, load, load_item where smob.smobid = load.smobid and load.loadid = load_item.loadid and itemid = %s', (eqid,))
 	smobs = cur.fetchall()
 	
-	return render_template('eq_item.html', title=item[0], item=item, desc=desc, smobs=smobs)
+	return render_template('eq_item.html', title=title, item=item, desc=desc, smobs=smobs, itemid=eqid)
 
 @app.route('/eq/<eqtype>/<eqsubtype>')
 def eq_type_subtype(eqtype, eqsubtype):
 	cur = g.db.cursor()
-	query = ''
+	
+	
+	
 	if eqtype == 'armor':
-		query = 'select name, itemid, type, db, pb, moves, abs, weight, rent, sheath from armor where type = %s'
+		cur.execute('select item.itemid, item.name, armor.subtype, armor.db, armor.pb, armor.moves, armor.abs, armor.weight, armor.rent, armor.sheath from item, armor where item.itemid = armor.itemid and item.type = %s and armor.subtype = %s', ('armor', eqsubtype))
 	elif eqtype == 'weapon':
-		query = 'select name, itemid, type, ob, pb, weight, hands, rent from weapon where type = %s'
+		cur.execute('select item.itemid, item.name, weapon.subtype, weapon.ob, weapon.pb, weapon.weight, weapon.hands, weapon.rent from item, weapon where item.itemid = weapon.itemid and item.type = %s and weapon.subtype = %s', ('weapon', eqsubtype))
 	elif eqtype == 'trink':
-		query = 'select name, itemid, type, db, pb, moves, weight, rent, sheath from trink where type = %s'
+		cur.execute('select item.itemid, item.name, trink.subtype, trink.db, trink.pb, trink.moves, trink.weight, trink.rent, trink.sheath from item, trink where item.itemid = trink.itemid and item.type = %s and trink.subtype = %s', ('trink', eqsubtype))
 	else:
 		return render_template('eq_unknown.html')
-	cur.execute(query, (eqsubtype,))
+	
 	items = cur.fetchall()
 	descs = cur.description
 	return render_template('eq.html', title=eqtype, items=items, descs=descs)
@@ -238,26 +274,48 @@ def eq_type_subtype(eqtype, eqsubtype):
 @app.route('/eq/<eqtype>')
 def eq_type(eqtype):
 	cur = g.db.cursor()
-	query = ''
-	if eqtype == 'armor':
-		query = 'select name, itemid, type, db, pb, moves, abs, weight, rent, sheath from armor'
-	elif eqtype == 'weapon':
-		query = 'select name, itemid, type, ob, pb, weight, hands, rent from weapon'
-	elif eqtype == 'trink':
-		query = 'select name, itemid, type, db, pb, moves, weight, rent, sheath from trink'
-	else:
-		return render_template('eq_unknown.html')
-	cur.execute(query)
+	
+	cur.execute('select itemid, name from item where type = %s', (eqtype,))
 	items = cur.fetchall()
-	descs = cur.description
-	return render_template('eq.html', title=eqtype, items=items, descs=descs)
+	
+	newitems = list()
+	descs = list()
+	if eqtype == 'armor':
+		descs = ('itemid', 'name', 'subtype', 'db', 'pb', 'moves', 'abs', 'weight', 'rent', 'sheath')
+	elif eqtype == 'weapon':
+		descs = ('itemid', 'name', 'subtype', 'ob', 'pb', 'weight', 'hands', 'rent')
+	elif eqtype == 'trink':
+		descs = ('itemid', 'name', 'subtype', 'db', 'pb', 'moves', 'weight', 'rent', 'sheath')
+	for item in items:
+		if eqtype == 'armor':
+			cur.execute('select subtype, db, pb, moves, abs, weight, rent, sheath from armor where itemid = %s', (item[0],))
+			row = cur.fetchone()
+			if not row:
+				row = ("", "", "", "", "", "", "", "")
+			newitems.append((item + row))
+		elif eqtype == 'weapon':
+			cur.execute('select subtype, ob, pb, weight, hands, rent from weapon where itemid = %s', (item[0],))
+			row = cur.fetchone()
+			if not row:
+				row = ("", "", "", "", "", "")
+			newitems.append((item + row))
+		elif eqtype == 'trink':
+			cur.execute('select subtype, db, pb, moves, weight, rent, sheath from trink where itemid = %s', (item[0],))
+			row = cur.fetchone()
+			if not row:
+				row = ("", "", "", "", "", "", "")
+			newitems.append((item + row))
+		else:
+			return render_template('eq_unknown.html')
+	
+	return render_template('eq.html', title=eqtype, items=newitems, descs=descs)
 
 @app.route('/eq')
 def eq():
 	cur = g.db.cursor()
-	cur.execute('select name, itemid, type from item')
+	cur.execute('select itemid, name, type from item')
 	items = cur.fetchall()
-	descs = cur.description
+	descs = ('itemid', 'name', 'type')
 	return render_template('eq.html', title='equipment', items=items, descs=descs)
 
 @app.route('/quests')

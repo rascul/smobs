@@ -1,25 +1,16 @@
 {% extends "base.html" %}
 {% block body %}
 <table class="sortable">
-	<tr>{% for i in range(descs|length) %}{% if descs[i][0] != 'itemid' %}<th><a href="#" onclick="return false;">{{ descs[i][0] }}</a></th>{% endif %}{% endfor %}</tr>
-	{% for item in items %}
-		<tr>{% for i in range(item|length) %}
-			{% if descs[i][0] == "name" %}
-				<td><a href="/eq/{{ item[1] }}">{{ item[0] }}</a></td>
-			{% elif descs[i][0] == "type" %}
-				<td><a href="/eq/{% if title != 'equipment' %}{{ title }}/{% endif %}{{ item[2] }}">{{ item[2] }}</a></td>
-			{% elif descs[i][0] != "itemid" %}
-				{% if item[i] is none %}
-					<td></td>
-				{% elif item[i]|string == '1.0' %}
-					<td>1</td>
-				{% elif item[i]|string == '2.0' %}
-					<td>2</td>
-				{% else %}
-					<td>{{ item[i] }}</td>
-				{% endif %}
-			{% endif %}
-		{% endfor %}</tr>
-	{% endfor %}
+	<tr>{% for i in range(descs|length) %}{% if descs[i] != 'itemid' %}
+		<th><a href="#" onclick="return false;">{{ descs[i] }}</a></th>{% endif %}
+	{% endfor %}</tr>
+	{% for item in items %}<tr>{% for i in range(item|length) %}
+		{% if descs[i] == "name" %}<td><a href="/eq/{{ item[0] }}">{{ item[1] }}</a></td>
+		{% elif descs[i] == "subtype" or descs[i] == "type" %}<td><a href="/eq/{% if title != 'equipment' %}{{ title }}/{% endif %}{{ item[2] }}">{{ item[2] }}</a></td>
+		{% elif descs[i] != "itemid" %}{% if item[i] is none %}<td></td>
+		{% elif item[i]|string == '1.0' %}<td>1</td>
+		{% elif item[i]|string == '2.0' %}<td>2</td>
+		{% else %}<td>{{ item[i] }}</td>{% endif %}{% endif %}
+	{% endfor %}</tr>{% endfor %}
 </table>
 {% endblock %}

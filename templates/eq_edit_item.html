@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block body %}
+<ul>
+	<li>Only enter accurate data</li>
+	<li>Leave field blank if unknown</li>
+</ul>
+
+<form action="/eq/edit/submit" method="post">
+	<select name="type">
+		<option value="None">unknown</option>
+		<option value="angreal" {% if itemtype == "angreal" %}selected{% endif %}>angreal</option>
+		<option value="armor" {% if itemtype == "armor" %}selected{% endif %}>armor</option>
+		<option value="container" {% if itemtype == "container" %}selected{% endif %}>container</option>
+		<option value="food" {% if itemtype == "food" %}selected{% endif %}>food</option>
+		<option value="herb" {% if itemtype == "herb" %}selected{% endif %}>herb</option>
+		<option value="horseeq" {% if itemtype == "horseeq" %}selected{% endif %}>horseeq</option>
+		<option value="key" {% if itemtype == "key" %}selected{% endif %}>key</option>
+		<option value="light" {% if itemtype == "light" %}selected{% endif %}>light</option>
+		<option value="liquid container" {% if itemtype = "liquid container" %}selected{% endif %}>liquid container</option>
+		<option value="misc" {% if itemtype == "misc" %}selected{% endif %}>misc</option>
+		<option value="money" {% if itemtype == "money" %}selected{% endif %}>money</option>
+		<option value="potion" {% if itemtype == "potion" %}selected{% endif %}>potion</option>
+		<option value="trink" {% if itemtype == "trink" %}selected{% endif %}>trink</option>
+		<option value="weapon" {% if itemtype == "weapon" %}selected{% endif %}>weapon</option>
+	</select>
+	<button id="submit_button" value="change_type" name="button">change type</button>
+	<input type="hidden" name="itemid" value="{{ itemid }}" readonly>
+</form>
+
+<br>
+
+<form action="/eq/edit/submit" method="post">
+	<table>
+	{% for d in desc %}
+		<tr>
+			<td style="text-align: right;"><strong>{{ d[0] }}</strong></td>
+			<td>
+			{% if d[0] == "subtype" %}
+				<select name="subtype" style="width: 100%">
+				{% if itemtype == "armor" %}
+					<option value="arms" {% if item[loop.index0] == "arms" %}selected{% endif %}>arms</option>
+					<option value="chest" {% if item[loop.index0] == "chest" %}selected{% endif %}>chest</option>
+					<option value="feet" {% if item[loop.index0] == "feet" %}selected{% endif %}>feet</option>
+					<option value="hands" {% if item[loop.index0] == "hands" %}selected{% endif %}>hands</option>
+					<option value="head" {% if item[loop.index0] == "head" %}selected{% endif %}>head</option>
+					<option value="legs" {% if item[loop.index0] == "legs" %}selected{% endif %}>legs</option>
+					<option value="shield" {% if item[loop.index0] == "shield" %}selected{% endif %}>shield</option>
+				{% elif itemtype == "trink" %}
+					<option value="belt" {% if item[loop.index0] == "belt" %}selected{% endif %}>belt</option>
+					<option value="bracelet" {% if item[loop.index0] == "bracelet" %}selected{% endif %}>bracelet</option>
+					<option value="cloak" {% if item[loop.index0] == "cloak" %}selected{% endif %}>cloak</option>
+					<option value="necklace" {% if item[loop.index0] == "necklace" %}selected{% endif %}>necklace</option>
+					<option value="ring" {% if item[loop.index0] == "ring" %}selected{% endif %}>ring</option>
+				{% elif itemtype == "weapon" %}
+					<option value="axe" {% if item[loop.index0] == "axe" %}selected{% endif %}>axe</option>
+					<option value="club" {% if item[loop.index0] == "club" %}selected{% endif %}>club</option>
+					<option value="fencing blade" {% if item[loop.index0] == "fencing blade" %}selected{% endif %}>fencing blade</option>
+					<option value="flail" {% if item[loop.index0] == "flail" %}selected{% endif %}>flail</option>
+					<option value="javelin" {% if item[loop.index0] == "javelin" %}selected{% endif %}>javelin</option>
+					<option value="lance" {% if item[loop.index0] == "lance" %}selected{% endif %}>lance</option>
+					<option value="long blade" {% if item[loop.index0] == "long blade" %}selected{% endif %}>long blade</option>
+					<option value="medium blade" {% if item[loop.index0] == "medium blade" %}selected{% endif %}>medium blade</option>
+					<option value="polearm" {% if item[loop.index0] == "polearm" %}selected{% endif %}>polearm</option>
+					<option value="projectile" {% if item[loop.index0] == "projectile" %}selected{% endif %}>projectile</option>
+					<option value="short blade" {% if item[loop.index0] == "short blade" %}selected{% endif %}>short blade</option>
+					<option value="spear" {% if item[loop.index0] == "spear" %}selected{% endif %}>spear</option>
+					<option value="staff" {% if item[loop.index0] == "staff" %}selected{% endif %}>staff</option>
+				{% endif %}
+				</select>
+			{% elif d[0] == "hands" %}
+				<select name="hands" style="width: 100%">
+					<option value="1" {% if item[loop.index0] == 1 %}selected{% endif %}>1</option>
+					<option value="1.5" {% if item[loop.index0] == 1.5 %}selected{% endif %}>1.5</option>
+					<option value="2" {% if item[loop.index0] == 2 %}selected{% endif %}>2</option>
+				</select>
+			{% elif d[0] == "sheath" %}
+				<select name="hands" style="width: 100%">
+					<option value="unknown">unknown</option>
+					<option value="true" {% if item[loop.index0] == True %}selected{% endif %}>yes</option>
+					<option value="false" {% if item[loop.index0] == False %}selected{% endif %}>no</option>
+				</select>
+			{% else %}
+				<input type="text" name="{{ d[0] }}" value="{{ item[loop.index0] }}"></input>
+			{% endif %}
+			
+			</td>
+			<td>
+			{% if d[0] == "subtype" %}
+				type of {{ itemtype }}
+			{% elif d[0] == "ob" %}
+				offensive bonus
+			{% elif d[0] == "hands" %}
+				hands required
+			{% elif d[0] == "db" %}
+				dodging bonus
+			{% elif d[0] == "pb" %}
+				parrying bonus
+			{% elif d[0] == "moves" %}
+				movement bonus
+			{% elif d[0] == "abs" %}
+				armor absorption percent
+			{% elif d[0] == "weight" %}
+				item weight
+			{% elif d[0] == "rent" %}
+				rent amount in copper
+			{% elif d[0] == "sheath" %}
+				whether item can sheath weapons
+			{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+</form>
+
+{% endblock %}
